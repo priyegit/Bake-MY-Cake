@@ -1,0 +1,131 @@
+
+<mat-toolbar id="header">
+  <h1>Order Your Cake</h1>
+  <nav>
+    <mat-icon routerLink="/">home</mat-icon>
+  </nav>
+</mat-toolbar>
+<section id="cake-content">
+  <div id="order-detail">
+    <mat-card   mat-ripple [matRippleCentered]="true" class="card-content">
+      <img  src="../../assets/images/{{ cake?.name }}.jpg" alt="" width="580px" height="380px" />
+      <mat-card-content class="cakename">
+        <h4>{{ cake?.name }}</h4>
+          ₹{{ cake?.price }} per
+        <div>
+          <img src="../../assets/images/rating.jpg" />{{ cake?.rating }}
+        </div>
+        <div>{{ cake?.descripition }}</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <form id="cake-request"  #requestForm="ngForm" (ngSubmit)="makeRequest(requestForm)">
+    <h1>Book this cake</h1>
+    <h2>Price:{{ cake?.price }}.Rs <span id="per-cake"> PER cake</span></h2>
+    <h3>When are you want ?</h3>
+
+
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [min]="minDate"    name="dateOfRequest"  #dateOfRequest="ngModel" [(ngModel)]="cakeRequest.orderDate" [matDatepicker]="picker" format="MM/dd/yyyy" >
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+
+
+    <h3>Enter your personal details</h3>
+    <mat-form-field autocomplete="on" appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" required pattern="[A-Za-z\s]{2,}$" placeholder="Name" name="customerName"
+        #customerName="ngModel" [(ngModel)]="cakeRequest.customerName" />
+      <mat-error *ngIf="customerName?.errors?.['required']">customer name is required</mat-error>
+      <mat-error *ngIf="customerName.errors?.['pattern']">customer name cannot be number and minumum length 2 is
+        required</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field autocomplete="on" appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput type="text" required pattern="[A-Za-z0-9]+@[a-z]+\.[a-z]{2,3}" placeholder="Email"
+             name="customerEmail" [(ngModel)]="cakeRequest.customerEmail" #customerEmail="ngModel" />
+      <mat-error *ngIf="customerEmail.errors?.['required']">Email ID is required</mat-error>
+      <mat-error *ngIf="customerEmail.errors?.['pattern']">Enter a valid email ID</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>Phone</mat-label>
+      <input matInput type="text" required pattern="^+91[7-9][0-9]{9}$" placeholder="Phone" name="customerPhone"
+        #customerPhone="ngModel" [(ngModel)]="cakeRequest.customerPhone" />
+      <mat-error *ngIf="customerPhone?.errors?.['required']">phone number is required</mat-error>
+      <mat-error *ngIf="customerPhone?.errors?.['pattern']">enter valid phone number containing 10 digits starting with
+        7/8/9</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Quantity</mat-label>
+      <input matInput type="number" required placeholder="Quantity" name="quantity"
+        #quantity="ngModel" [(ngModel)]="cakeRequest.quantity"  (input)="calculateTotalAmmount()" min="1" max="20"   >
+      <mat-error *ngIf="quantity?.hasError('min') || quantity?.hasError('max')">
+        Please enter a quantity between 1 and 10.
+      </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>Total Amount</mat-label>
+      <input matInput type="number" readonly   placeholder="Total Amount" name="totalAmount"
+        #totalAmount="ngModel" [(ngModel)]="cakeRequest.totalAmount" />
+      <!-- <mat-error *ngIf="totalAmount?.errors?.['maxAmount']">Total amount should not excee</mat-error> -->
+    </mat-form-field>
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>flatNo</mat-label>
+      <input matInput type="number" required pattern="^[0-9]+$" placeholder="flat" name="flatNo" #flatNo="ngModel"
+        [(ngModel)]="cakeRequest.customerflatNo" />
+        <mat-error *ngIf="flatNo.errors?.['required']">Flat number is required</mat-error>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="fill">
+      <mat-label>Street</mat-label>
+      <input matInput type="text" required placeholder="street" name="Street" #Street="ngModel"
+        [(ngModel)]="cakeRequest.customerstreet" /><mat-error *ngIf="Street.errors?.['required']">Street Name Is Required</mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>city</mat-label>
+      <input matInput  type="text" required pattern ="^[A-Za-z]+$" placeholder="city" name="city" #city="ngModel"
+        [(ngModel)]="cakeRequest.customercity" /><mat-error *ngIf="city.errors?.['required']">city is
+        required</mat-error>
+    </mat-form-field>
+    <br />
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>state</mat-label>
+      <input matInput type="text" required pattern ="^[A-Za-z]+$" placeholder="state" name="customerState" #customerState="ngModel"
+        [(ngModel)]="cakeRequest.customerstate" /><mat-error *ngIf="customerState.errors?.['required']">state is
+        required</mat-error>
+    </mat-form-field>
+    <br />
+
+
+    <mat-form-field appearance="fill">
+      <mat-label>pincode</mat-label>
+      <input matInput type="text" required pattern="^\d{6}$" placeholder="pincode" name="pincode" #pincode="ngModel"
+        [(ngModel)]="cakeRequest.customerpincode" />
+      <mat-error *ngIf="pincode?.errors?.['required']">PinCode is required</mat-error>
+      <mat-error *ngIf="pincode?.errors?.['pattern']">enter valid pinCode containing 6 digits
+      </mat-error></mat-form-field>
+    <br />
+
+
+
+    <button mat-flat-button color="primary" type="submit"   [disabled]="!requestForm.valid">submit</button>
+  </form>
+</section>

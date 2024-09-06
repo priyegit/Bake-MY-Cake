@@ -1,0 +1,6 @@
+<app-search (searchTextChanged)="onSearchTextChanged($event)"></app-search>
+<app-filter (filterTextChanged)="onFilterTextChanged($event)"></app-filter>
+<app-cake-card *ngFor = "let cake of cakes" [cake] = "cake">
+
+
+</app-cake-card>

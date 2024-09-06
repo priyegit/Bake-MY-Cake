@@ -1,0 +1,22 @@
+ <!--<p>login works!</p>-->
+<mat-toolbar id="header" >
+  <h1 >Bake My Cake </h1>
+</mat-toolbar>
+<div id="login-form">
+  <h3>If you are a admin, enter your admin Code:</h3>
+  <mat-form-field  appearance="fill">
+    <mat-label>Enter adminstrator Code</mat-label>
+    <input
+      matInput
+      type="password"
+      name="adminstratorCode"
+      [(ngModel)]="adminstratorCode"
+      placeholder="Adminstator Code"
+    />
+  </mat-form-field><br>
+  <button class="submit-Button" type="submit" mat-button routerLink="cake-requests" (click)="validateadminstratorCode()">
+    Submit
+  </button>
+  <h4>If you are a Visitor, <a routerLink="">click here</a></h4>
+</div>
+

@@ -1,0 +1,11 @@
+
+<div id="space">
+  <mat-form-field>
+    <mat-label>Select Cake Type</mat-label>
+    <mat-select [(ngModel)]="cakeName" (selectionChange)="filterMethod()">
+      <mat-option value="Cakes">Cakes</mat-option>
+      <mat-option value="Cookies">Cookies</mat-option>
+      <mat-option value="Brownies">Brownies</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
